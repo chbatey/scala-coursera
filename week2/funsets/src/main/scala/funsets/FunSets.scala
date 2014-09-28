@@ -45,14 +45,14 @@ object FunSets {
    * the set of all elements of `s` that are not in `t`.
    */
   def diff(s: Set, t: Set): Set = {
-    elem => { contains(union(s, t), elem) && !contains(intersect(s,t),elem)  }
+    elem => { contains(s, elem) && !contains(intersect(s,t),elem)  }
   }
 
   /**
    * Returns the subset of `s` for which `p` holds.
    */
   def filter(s: Set, p: Int => Boolean): Set = {
-    elem => { contains(s, elem) && p(elem)}
+    elem => { contains(s, elem) && p(elem )}
   }
 
   /**
@@ -65,23 +65,29 @@ object FunSets {
    */
   def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (a > bound) true
+      else if (contains(s,a) && !p(a)) false
+      else iter(a + 1)
     }
-    iter(???)
+    iter(-bound)
   }
 
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-  def exists(s: Set, p: Int => Boolean): Boolean = ???
+  def exists(s: Set, p: Int => Boolean): Boolean = {
+    !forall(s, elem => !p(elem))
+  }
 
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: Set, f: Int => Int): Set = ???
+  def map(s: Set, f: Int => Int): Set = {
+    elem => {
+      exists(s, e => f(e) == elem)
+    }
+  }
 
   /**
    * Displays the contents of a set
